@@ -2,10 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Sidebar from "../components/Sidebar";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { Menu, Plus, Sun, Info, CloudRain, Wind, MapPin } from "lucide-react";
 
 interface Stats {
   battery: number;
@@ -15,45 +12,50 @@ interface Stats {
 
 export default function Dashboard() {
   const router = useRouter();
-  const [stats, setStats] = useState<Stats | null>(null);
-
-  // const session = await getServerSession(authOptions);
-
-  // if (!session) {
-  //   redirect("/auth/login");
-  // }
-
-  useEffect(() => {
-    // Mock API call for dashboard stats
-    setTimeout(() => {
-      setStats({
-        battery: 78,
-        solarCharge: 55,
-        powerUsage: 120,
-      });
-    }, 1000);
-  }, []);
 
   return (
-    <div className="flex min-h-screen bg-gray-900 text-white">
-      <Sidebar />
-      <main className="flex-1 p-6">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <div className="grid grid-cols-3 gap-6 mt-6">
-          <div className="bg-gray-800 p-4 rounded-lg">
-            <h2 className="text-lg font-semibold">Battery Level</h2>
-            <p className="text-3xl">{stats ? `${stats.battery}%` : "Loading..."}</p>
-          </div>
-          <div className="bg-gray-800 p-4 rounded-lg">
-            <h2 className="text-lg font-semibold">Solar Charge</h2>
-            <p className="text-3xl">{stats ? `${stats.solarCharge}%` : "Loading..."}</p>
-          </div>
-          <div className="bg-gray-800 p-4 rounded-lg">
-            <h2 className="text-lg font-semibold">Power Usage</h2>
-            <p className="text-3xl">{stats ? `${stats.powerUsage}W` : "Loading..."}</p>
+    <div className="flex flex-col bg-[#333333] px-6 overflow-auto w-full">
+    {/* Top Navbar */}
+    <header className="py-4 flex justify-between items-center">
+        <nav className="flex items-center gap-2 text-gray-400 text-sm">
+            <span>Dashboard</span>
+            <span className="bg-white text-black px-2 py-1 rounded-lg text-xs font-bold">My Devices</span>
+        </nav>
+        <button className="bg-white text-black px-4 py-2 rounded-lg flex items-center gap-2">
+            <Plus size={16} /> Add new device
+        </button>
+    </header>
+
+    {/* Dashboard Widgets */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+        <div className="bg-black p-4 rounded-lg flex flex-col text-white">
+          <Sun size={24} className="text-white mb-2" />
+          <div className="flex justify-between items-center">
+            <span className="font-bold text-lg text-white">650 W/m²</span>
+            <Info size={16} className="text-white" />
           </div>
         </div>
-      </main>
+        <div className="bg-black p-4 rounded-lg flex flex-col text-white">
+          <CloudRain size={24} className="text-white mb-2" />
+          <div className="flex justify-between items-center">
+            <span className="font-bold text-lg text-white">Moderate Rain</span>
+            <Info size={16} className="text-white" />
+          </div>
+        </div>
+        <div className="bg-black p-4 rounded-lg flex flex-col text-white">
+          <Wind size={24} className="text-white mb-2" />
+          <div className="flex justify-between items-center">
+            <span className="font-bold text-lg text-white">15m/s</span>
+            <Info size={16} className="text-white" />
+          </div>
+        </div>
+        <div className="bg-black p-4 rounded-lg flex flex-col text-white">
+          <MapPin size={24} className="text-white mb-2" />
+          <div className="flex justify-between items-center">
+            <span className="font-bold text-lg text-white">Ibadan, NGA</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
