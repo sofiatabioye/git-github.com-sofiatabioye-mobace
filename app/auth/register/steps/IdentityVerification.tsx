@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Undo, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 interface IdentityVerificationProps {
     nextStep: () => void;
@@ -7,7 +7,7 @@ interface IdentityVerificationProps {
     title: string;
 }
 
-export default function IdentityVerification({ nextStep, prevStep, title }: IdentityVerificationProps) {
+export default function IdentityVerification({ nextStep, title }: IdentityVerificationProps) {
     const [selectedMethod, setSelectedMethod] = useState<string | null>("National Identity Number (NIN)");
 
     return (

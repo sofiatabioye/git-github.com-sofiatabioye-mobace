@@ -3,12 +3,12 @@ import { useRegister } from "../RegisterContext";
 
 interface EmailVerificationProps {
     nextStep: () => void;
-    prevStep: () => void;
+    prevStep?: () => void;
     title: string;
 }
   
-export default function EmailVerification({ nextStep, prevStep, title }: EmailVerificationProps) {
-    const { userData, updateUserData } = useRegister();
+export default function EmailVerification({ nextStep, title }: EmailVerificationProps) {
+    const { userData } = useRegister();
     const [code, setCode] = useState(['', '', '', '', '', '']);
     const inputRefs = useRef<(HTMLInputElement | null)[]>(Array(6).fill(null));
 

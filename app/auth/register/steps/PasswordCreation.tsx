@@ -1,15 +1,14 @@
 import { useState } from "react";
-import { Eye, EyeOff, Undo } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useRegister } from "../RegisterContext";
 
 interface PasswordCreationProps {
     nextStep: () => void;
-    prevStep: () => void;
+    prevStep?: () => void;
     title: string;
 }
 
-export default function PasswordCreation({ nextStep, prevStep, title }: PasswordCreationProps) {
-    const { updateUserData } = useRegister();
+export default function PasswordCreation({ nextStep, title }: PasswordCreationProps) {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -17,7 +16,7 @@ export default function PasswordCreation({ nextStep, prevStep, title }: Password
 
     return (
         <div className="flex flex-col gap-4 text-center">
-            <h2 className="text-2xl font-bold mb-4">Password Creation</h2>
+            <h2 className="text-2xl font-bold mb-4">{title}</h2>
             <p className="text-gray-100 text-xs">Please ensure to keep your password safe and hidden.</p>
             
             {/* Password Input */}

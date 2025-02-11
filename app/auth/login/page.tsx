@@ -31,15 +31,13 @@ function LoginFlow() {
         { name: "Email", component: <LoginEmail nextStep={nextStep} /> },
         { name: "Password", component: <LoginPassword nextStep={nextStep} prevStep={prevStep} /> },
         { name: "Verification", component: <LoginVerification nextStep={nextStep} prevStep={prevStep} /> },
-        { name: "Success", component: <LoginSuccess nextStep={() => console.log("Redirect to dashboard")} /> },
+        { name: "Success", component: <LoginSuccess /> },
     ];
 
     return (
-        // <div className="flex flex-col items-center justify-center min-h-screen bg-[#292929]">
-            <div className="relative z-10 bg-[#222222] p-16 rounded-2xl shadow-lg max-w-lg w-full text-white">
-                {steps[currentStep].component}
-            </div>
-        // </div>
+        <div className="relative z-10 bg-[#222222] p-16 rounded-2xl shadow-lg max-w-lg w-full text-white">
+            {steps[currentStep].component}
+        </div>
     );
 }
 

@@ -1,18 +1,8 @@
 "use client";
+import { Plus, Sun, Info, CloudRain, Wind, MapPin } from "lucide-react";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Menu, Plus, Sun, Info, CloudRain, Wind, MapPin } from "lucide-react";
-
-interface Stats {
-  battery: number;
-  solarCharge: number;
-  powerUsage: number;
-}
 
 export default function Dashboard() {
-  const router = useRouter();
-
   return (
     <div className="flex flex-col bg-[#333333] px-6 overflow-auto w-full">
     {/* Top Navbar */}

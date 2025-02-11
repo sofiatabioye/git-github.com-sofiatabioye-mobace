@@ -3,11 +3,11 @@ import { useRegister } from "../RegisterContext";
 
 interface EmailRegistrationProps {
   nextStep: () => void;
-  prevStep: () => void;
+  prevStep?: () => void;
   title: string;
 }
 
-export default function EmailRegistration({ nextStep, prevStep, title }: EmailRegistrationProps) {
+export default function EmailRegistration({ nextStep, title }: EmailRegistrationProps) {
     const { userData, updateUserData } = useRegister();
     const router = useRouter();
     return (

@@ -157,7 +157,7 @@ export function LoginVerification({ nextStep, prevStep }: LoginProps) {
 }
 
 
-export function LoginSuccess({ nextStep }: LoginProps) {
+export function LoginSuccess() {
     const router = useRouter();
     return (
         <div className="flex flex-col gap-6 items-center text-center">

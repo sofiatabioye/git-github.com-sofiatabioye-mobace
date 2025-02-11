@@ -1,15 +1,14 @@
 import { useState } from "react";
-import { AlertCircle,CircleAlert } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { useRegister } from "../RegisterContext";
 
 interface DeviceRegistrationProps {
     nextStep: () => void;
-    prevStep: () => void;
+    prevStep?: () => void;
     title: string;
 }
 
-export default function DeviceRegistration({ nextStep, prevStep, title }: DeviceRegistrationProps) {
-    const { updateUserData } = useRegister();
+export default function DeviceRegistration({ nextStep, title }: DeviceRegistrationProps) {
     const [deviceID, setDeviceID] = useState("");
 
     return (

@@ -1,11 +1,11 @@
 import { useRouter } from "next/navigation";
 
 interface VerificationReviewProps {
-  nextStep: () => void;
+  nextStep?: () => void;
   title: string;
 }
 
-export default function VerificationReview({ nextStep, title }: VerificationReviewProps) {
+export default function VerificationReview({ title }: VerificationReviewProps) {
   const router= useRouter();
   return (
       <div className="flex flex-col gap-6 items-center text-center p-6">
