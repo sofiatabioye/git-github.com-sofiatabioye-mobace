@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { AlertCircle } from "lucide-react";
-import { useRegister } from "../RegisterContext";
 
 interface DeviceRegistrationProps {
     nextStep: () => void;

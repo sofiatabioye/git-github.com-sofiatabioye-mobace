@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useRegister } from "../RegisterContext";
 
 interface PasswordCreationProps {
     nextStep: () => void;

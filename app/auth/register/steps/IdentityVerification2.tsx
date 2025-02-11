@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Undo, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 interface IdentityVerificationProps {
     nextStep: () => void;
-    prevStep: () => void;
+    prevStep?: () => void;
     title: string;
 }
 
-export default function IdentityVerification2({ nextStep, prevStep, title }: IdentityVerificationProps) {
+export default function IdentityVerification2({ nextStep, title }: IdentityVerificationProps) {
     const [nin, setNin] = useState("");
 
     return (

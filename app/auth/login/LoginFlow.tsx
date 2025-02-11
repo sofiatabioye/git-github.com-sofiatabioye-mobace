@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Undo, Eye, EyeOff } from "lucide-react";
 import { useLogin } from "./LoginContext";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 
 interface LoginProps {
@@ -161,7 +162,7 @@ export function LoginSuccess() {
     const router = useRouter();
     return (
         <div className="flex flex-col gap-6 items-center text-center">
-            <img src="/hourglass.png" alt="Login successful" className="w-16 h-16" />
+            <Image src="/hourglass.png" alt="Login successful" width={64} height={64} />
             <h2 className="text-xl font-bold">Log In Successful!</h2>
             <button 
                 onClick={() => router.push("/dashboard")}
