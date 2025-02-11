@@ -1,5 +1,5 @@
 "use client";
-import { Plus, Sun, Info, CloudRain, Wind, MapPin } from "lucide-react";
+import { Plus} from "lucide-react";
 import ActiveDevices from "./ActiveDevices";
 import RegisteredDevices from "./RegisteredDevices";
 
