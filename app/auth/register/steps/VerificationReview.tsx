@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface VerificationReviewProps {
   nextStep?: () => void;
@@ -10,7 +11,7 @@ export default function VerificationReview({ title }: VerificationReviewProps) {
   return (
       <div className="flex flex-col gap-6 items-center text-center p-6">
           {/* Hourglass Image */}
-          <img src="/hourglass.png" alt="Verification in progress" className="w-16 h-16" />
+          <Image src="/hourglass.png" alt="Verification in progress" width={64} height={64} />
           
           {/* Title */}
           <h2 className="text-2xl font-bold">{title}</h2>
