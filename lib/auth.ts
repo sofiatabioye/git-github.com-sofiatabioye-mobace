@@ -1,9 +1,9 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import db from "@/lib/db";
 import bcrypt from "bcryptjs";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -12,10 +12,14 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const user = await db.user.findUnique({ where: { email: credentials?.email } });
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Missing credentials");
+        }
+
+        const user = await db.user.findUnique({ where: { email: credentials.email } });
         if (!user) throw new Error("User not found");
 
-        const isValidPassword = await bcrypt.compare(credentials!.password, user.password);
+        const isValidPassword = await bcrypt.compare(credentials.password, user.password);
         if (!isValidPassword) throw new Error("Invalid password");
 
         return { id: user.id, email: user.email };
@@ -24,7 +28,9 @@ export const authOptions = {
   ],
   callbacks: {
     async session({ session, token }) {
-      session.user.id = token.sub;
+      if (session.user) {
+        (session.user as { id: string } & typeof session.user).id = token.sub as string;
+      }
       return session;
     },
   },

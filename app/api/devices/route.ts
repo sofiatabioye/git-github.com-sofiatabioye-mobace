@@ -6,7 +6,8 @@ export async function GET() {
     const devices = await db.device.findMany();
     return NextResponse.json({ success: true, devices });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }
 
@@ -19,6 +20,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, device: newDevice });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }
