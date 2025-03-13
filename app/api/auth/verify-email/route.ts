@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   const user = await db.user.findFirst({
     where: { emailVerificationToken: token },
   });
-
+  console.log(user, '...users')
   if (!user) {
     return NextResponse.json({ message: "Invalid or expired token" }, { status: 400 });
   }

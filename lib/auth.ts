@@ -1,9 +1,9 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import db from "@/lib/db";
 import bcrypt from "bcryptjs";
 
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -13,29 +13,32 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Missing credentials");
+          throw new Error("Email and password required");
         }
 
         const user = await db.user.findUnique({ where: { email: credentials.email } });
-        if (!user) throw new Error("User not found");
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        if (!user.emailVerified) {
+          throw new Error("Email not verified");
+        }
 
         const isValidPassword = await bcrypt.compare(credentials.password, user.password);
-        if (!isValidPassword) throw new Error("Invalid password");
+        if (!isValidPassword) {
+          throw new Error("Invalid password");
+        }
 
         return { id: user.id, email: user.email };
       },
     }),
   ],
-  callbacks: {
-    async session({ session, token }) {
-      if (session.user) {
-        (session.user as { id: string } & typeof session.user).id = token.sub as string;
-      }
-      return session;
-    },
+  pages: {
+    signIn: "/auth/login",
   },
+  session: { strategy: "jwt" as const },
   secret: process.env.NEXTAUTH_SECRET,
-  session: { strategy: "jwt" },
 };
 
 export default NextAuth(authOptions);

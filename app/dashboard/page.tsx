@@ -1,8 +1,15 @@
 "use client";
 import { Plus, Sun, Info, CloudRain, Wind, MapPin } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
+export default async function Dashboard() {
+  const session = await getServerSession(authOptions);
 
-export default function Dashboard() {
+  if (!session) {
+    redirect("/auth/login");
+  }
   return (
     <div className="flex flex-col bg-[#333333] px-6 overflow-auto w-full">
       {/* Top Navbar */}

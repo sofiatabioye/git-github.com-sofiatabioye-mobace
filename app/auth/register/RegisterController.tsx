@@ -13,8 +13,8 @@ import { Undo } from 'lucide-react';
 const steps = [
   { name: 'User Registration', component: UserRegistration, title: "Let's start by getting to know who you are!" },
   { name: 'Email Registration', component: EmailRegistration, title: "You’re halfway there!" },
-  { name: 'Email Verification', component: EmailVerification, title: "The finish line is in sight, you can see it too!" },
   { name: 'Password Creation', component: PasswordCreation, title: "Let’s secure your account now, shall we ?" },
+  { name: 'Email Verification', component: EmailVerification, title: "The finish line is in sight, you can see it too!" },
   { name: 'Let’s register your device!', component: DeviceRegistration, title: "" },
   { name: 'Identity Verification', component: IdentityVerification, title: "Great job so far, just one more step to go!" },
   { name: 'Identity Verification', component: IdentityVerification2, title: "The very last step!"},
