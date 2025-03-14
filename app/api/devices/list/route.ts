@@ -14,7 +14,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ success: true, devices });
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "Failed to list devices." },
+      { success: false, message: "Failed to list devices.", error: error },
       { status: 500 }
     );
   }

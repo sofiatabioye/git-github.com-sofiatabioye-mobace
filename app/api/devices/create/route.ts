@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "Device creation failed." },
+      { success: false, message: "Device creation failed.", error: error },
       { status: 500 }
     );
   }

@@ -1,5 +1,4 @@
 "use client";
-import { Plus, Sun, Info, CloudRain, Wind, MapPin } from "lucide-react";
 import BatteryCycleCount from "../components/BatteryCycleCount";
 import BatteryPerformance from "../components/BatteryPerformance";
 import BatteryVoltage from "../components/BatteryVoltage";

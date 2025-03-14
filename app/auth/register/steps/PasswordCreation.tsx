@@ -97,7 +97,7 @@ export default function PasswordCreation({ nextStep, title }: PasswordCreationPr
                 </button>
             </div>
 
-            <button onClick={handleSubmit} className="w-full bg-white text-black font-bold mt-6 py-3 rounded-lg">Verify email</button>
+            <button onClick={handleSubmit} disabled={loading} className="w-full bg-white text-black font-bold mt-6 py-3 rounded-lg">Verify email</button>
         </div>
     );
 }

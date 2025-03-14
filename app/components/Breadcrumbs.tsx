@@ -45,7 +45,7 @@ export default function Breadcrumbs() {
   const handleConfirmRemoval = async (deviceId: string) => {
     // TODO: call your API to remove the device
     // e.g. await fetch(`/api/devices/${deviceId}`, { method: "DELETE" });
-
+    console.log(deviceId)
     // Then show the success modal
     setIsConfirmModalOpen(false);
     setIsSuccessModalOpen(true);

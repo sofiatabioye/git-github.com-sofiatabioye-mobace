@@ -19,6 +19,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, message: "Email verified successfully!", userId: existingUser.id });
   } catch (error) {
-    return NextResponse.json({ success: false, message: "Verification failed." }, { status: 500 });
+    return NextResponse.json({ success: false, message: "Verification failed.", error: error }, { status: 500 });
   }
 }

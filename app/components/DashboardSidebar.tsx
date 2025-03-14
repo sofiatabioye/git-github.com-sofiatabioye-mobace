@@ -3,7 +3,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   LogOut,
-  ChevronDown,
   LayoutDashboard,
   Bell,
   Settings,
@@ -13,7 +12,6 @@ import {
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import DeviceDropdown from "./DeviceDropdown";
-import { useDashboard } from "../dashboard/DashboardContext";
 
 export default function DashboardSidebar() {
 

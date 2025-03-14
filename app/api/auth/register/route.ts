@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     const emailVerificationCode = generateVerificationCode();
 
     // Save user to database with verification code
-    const newUser = await db.user.create({
+    await db.user.create({
       data: {
         email,
         password: hashedPassword,
