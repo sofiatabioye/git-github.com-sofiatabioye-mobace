@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import crypto from "crypto";
-import db from "@/lib/db";
-import { sendVerificationEmail } from "@/lib/email";
+import db from "@/app/lib/db";
+import { sendVerificationEmail } from "@/app/lib/email";
+
+// Function to generate a 6-digit numeric code
+const generateVerificationCode = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString(); // Ensures a 6-digit number
+};
 
 export async function POST(req: Request) {
   try {
@@ -17,24 +21,25 @@ export async function POST(req: Request) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Generate email verification token
-    const emailToken = crypto.randomBytes(32).toString("hex");
+    // Generate 6-digit verification code
+    const emailVerificationCode = generateVerificationCode();
 
-    // Save user to database
+    // Save user to database with verification code
     const newUser = await db.user.create({
       data: {
         email,
         password: hashedPassword,
-        emailVerificationToken: emailToken,
+        emailVerificationToken: emailVerificationCode, // Store numeric code
         emailVerified: null,
       },
     });
-    
-    // Send verification email
-    await sendVerificationEmail(email, emailToken);
+
+    // Send verification email with numeric code
+    await sendVerificationEmail(email, emailVerificationCode);
 
     return NextResponse.json({ message: "User registered. Check your email to verify." });
   } catch (error) {
+    console.error("Registration error:", error);
     return NextResponse.json({ message: "Registration failed" }, { status: 500 });
   }
 }

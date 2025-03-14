@@ -1,21 +1,24 @@
 import { NextResponse } from "next/server";
-import db from "@/lib/db";
+import db from "@/app/lib/db";
 
 export async function POST(req: Request) {
-  const { token } = await req.json();
-  
-  const user = await db.user.findFirst({
-    where: { emailVerificationToken: token },
-  });
-  console.log(user, '...users')
-  if (!user) {
-    return NextResponse.json({ message: "Invalid or expired token" }, { status: 400 });
+  try {
+    const { email, code } = await req.json();
+
+    // Find user by email
+    const user = await db.user.findUnique({ where: { email } });
+    if (!user || user.emailVerificationToken !== code) {
+      return NextResponse.json({ success: false, message: "Invalid or expired code." }, { status: 400 });
+    }
+
+    // Mark email as verified
+    const existingUser = await db.user.update({
+      where: { email },
+      data: { emailVerified: new Date(), emailVerificationToken: null },
+    });
+
+    return NextResponse.json({ success: true, message: "Email verified successfully!", userId: existingUser.id });
+  } catch (error) {
+    return NextResponse.json({ success: false, message: "Verification failed." }, { status: 500 });
   }
-
-  await db.user.update({
-    where: { id: user.id },
-    data: { emailVerified: new Date(), emailVerificationToken: null },
-  });
-
-  return NextResponse.json({ message: "Email verified successfully" });
 }

@@ -30,7 +30,7 @@ function LoginFlow() {
     const steps = [
         { name: "Email", component: <LoginEmail nextStep={nextStep} /> },
         { name: "Password", component: <LoginPassword nextStep={nextStep} prevStep={prevStep} /> },
-        { name: "Verification", component: <LoginVerification nextStep={nextStep} prevStep={prevStep} /> },
+        // { name: "Verification", component: <LoginVerification nextStep={nextStep} prevStep={prevStep} /> },
         { name: "Success", component: <LoginSuccess /> },
     ];
 

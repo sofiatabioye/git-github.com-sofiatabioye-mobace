@@ -18,7 +18,7 @@ export default function PasswordCreation({ nextStep, title }: PasswordCreationPr
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const { userData, updateUserData, submitRegistration } = useRegister();
+    const { updateUserData, submitRegistration } = useRegister();
 
     const validatePassword = () => {
         if (password.length < 8) {
@@ -45,7 +45,6 @@ export default function PasswordCreation({ nextStep, title }: PasswordCreationPr
         if (!validatePassword()) return;
 
         updateUserData({ password });
-
 
         try {
             const response: { success: boolean; message?: string } = await submitRegistration();
