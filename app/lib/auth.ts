@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
         const user = await db.user.findUnique({ where: { email: credentials.email } });
 
         if (!user) {
-          throw new Error("No user found with this email");
+          throw new Error("Incorrect email and/or password");
         }
 
         return user;

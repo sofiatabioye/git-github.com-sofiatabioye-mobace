@@ -2,10 +2,12 @@ import { ReactNode } from "react";
 import DashboardHeader from "../components/Header";
 import DashboardSidebar from "../components/DashboardSidebar";
 import AuthProvider from "../providers/AuthProvider";
+import { DashboardProvider } from "./DashboardContext";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <AuthProvider requireAuth>
+      <DashboardProvider>
       <div className="flex h-screen bg-[#333333] text-white">
         {/* Sidebar */}
         <DashboardSidebar />
@@ -21,6 +23,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           </main>
         </div>
       </div>
+      </DashboardProvider>
     </AuthProvider>
   );
 }

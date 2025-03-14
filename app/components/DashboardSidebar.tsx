@@ -12,6 +12,8 @@ import {
   User
 } from "lucide-react";
 import { signOut } from "next-auth/react";
+import DeviceDropdown from "./DeviceDropdown";
+import { useDashboard } from "../dashboard/DashboardContext";
 
 export default function DashboardSidebar() {
 
@@ -21,7 +23,6 @@ export default function DashboardSidebar() {
   const pathname = usePathname(); 
 
   const handleLogout = async () => {
-    console.log('got here')
     setLoading(true);
     try {
       await signOut({ redirect: false }); // Ensure logout happens without auto-redirect
@@ -32,6 +33,7 @@ export default function DashboardSidebar() {
       setLoading(false);
     }
   };
+
     
   return (
     <aside
@@ -43,13 +45,7 @@ export default function DashboardSidebar() {
           <div className="text-lg font-bold mb-6 p-2 bg-[#333333] rounded-2xl text-white text-center">
             Mobace
           </div>
-          <div className="bg-[#333333] p-3 rounded-xl cursor-pointer">
-            <span className="text-gray-400 text-xs block">Your device</span>
-            <div className="flex items-center justify-between mt-1">
-              <span className="text-xs font-semibold">1230-2382-1211-9912</span>
-              <ChevronDown size={16} />
-            </div>
-          </div>
+          <DeviceDropdown />
           <nav className="space-y-4 mt-4 text-xs">
             <button
               onClick={() => router.push("/dashboard")}

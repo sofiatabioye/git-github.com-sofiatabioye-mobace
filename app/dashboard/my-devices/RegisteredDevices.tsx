@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Pencil, ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
+import { useDashboard, Device } from "../DashboardContext";
 
 const registeredDevices = [
   {
@@ -28,6 +29,16 @@ const registeredDevices = [
 
 export default function RegisteredDevices() {
   const [isExpanded, setIsExpanded] = useState(true);
+  const [registeredDevices, setRegisteredDevices] = useState<Device[]>([])
+  const { devices, loading } = useDashboard();
+
+    
+  useEffect(() => {
+       if(!loading){
+         setRegisteredDevices(devices)
+       }
+  }, [loading])
+
 
   return (
     <div className="p-6 rounded-lg text-white">
