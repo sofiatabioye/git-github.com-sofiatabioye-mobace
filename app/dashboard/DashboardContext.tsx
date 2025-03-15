@@ -8,6 +8,10 @@ export interface Device {
   location: string;
   status: string;
   createdAt: string;
+  activationDate: string;
+  lastActiveDate: string;
+  lastRuntime: string;
+  batteryPercentage: number;
 }
 
 interface DashboardContextValue {
@@ -17,6 +21,9 @@ interface DashboardContextValue {
   refreshDevices: () => Promise<void>;
   selectedDevice: Device | null;
   setSelectedDevice: (device: Device) => void;
+  editDevice: (updatedDevice: Device) => Promise<{message: string, success?: boolean, device?: Device}>;
+  deleteDevice: (deviceId: string) => Promise<{message?: string} | void>;
+  createDevice: (newDevice: Partial<Device>) => Promise<{message?: string}>;
 }
 
 const DashboardContext = createContext<DashboardContextValue | undefined>(undefined);
@@ -60,9 +67,86 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     await fetchDevices();
   };
 
+  const editDevice = async (updatedDevice: Device) => {
+    try {
+      const res = await fetch("/api/devices/update", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedDevice),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to update device");
+      }
+      const data = await res.json();
+      // Assume the API returns the updated device as data.device
+      setDevices((prev) =>
+        prev.map((device) => (device.id === updatedDevice.id ? data.device : device))
+      );
+      if (selectedDevice && selectedDevice.id === updatedDevice.id) {
+        setSelectedDevice(data.device);
+      }
+    } catch (err: any) {
+      const errMessage = err.message || "An error occurred while updating device";
+      setError(errMessage);
+      return({message: errMessage})
+    }
+  };
+
+  const deleteDevice = async (deviceId: string) => {
+    try {
+      const res = await fetch(`/api/devices/${deviceId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        throw new Error("Failed to delete device");
+      }
+      setDevices((prev) => prev.filter((device) => device.id !== deviceId));
+      if (selectedDevice && selectedDevice.id === deviceId) {
+        // Update selected device to the first remaining device or null
+        const remainingDevices = devices.filter((device) => device.id !== deviceId);
+        setSelectedDevice(remainingDevices[0] || null);
+      }
+    } catch (err: any) {
+      const errorMessage = err.message || "An error occurred while deleting device"
+      setError(errorMessage);
+      return errorMessage
+    }
+  };
+
+  const createDevice = async (newDevice: Partial<Device>) => {
+    const data = {
+      userId: 'errr',
+
+    }
+    try {
+      const res = await fetch("/api/devices/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newDevice),
+      });
+      const data = await res.json();
+     
+      if (!res.ok || data.success === false) {
+        throw new Error(data.message || "Failed to create device");
+      }
+      // Assume the API returns the created device in data.device.
+      setDevices((prev) => [...prev, data.device]);
+      return data
+    } catch (err: any) {
+      console.log(err, 'err')
+      const errMessage = err.message || "An error occurred while creating device"
+      setError(errMessage);
+      return { message: errMessage}
+    }
+  };
+
   return (
     <DashboardContext.Provider
-      value={{ devices, loading, error, refreshDevices, selectedDevice, setSelectedDevice }}
+      value={{ devices, loading, error, refreshDevices, selectedDevice, setSelectedDevice, editDevice, deleteDevice, createDevice }}
     >
       {children}
     </DashboardContext.Provider>

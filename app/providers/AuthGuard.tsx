@@ -1,13 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { SessionProvider, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { ReactNode, useEffect } from "react";
 
 export default function AuthGuard({ children, requireAuth = false }: { children: ReactNode; requireAuth?: boolean }) {
     const { data: session, status } = useSession();
     const router = useRouter();
-    console.log(session)
   
     useEffect(() => {
       // Avoid redirecting while session status is still loading

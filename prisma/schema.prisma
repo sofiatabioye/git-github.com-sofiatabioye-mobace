@@ -21,7 +21,11 @@ model Device {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   name      String
-  location  String
+  location  String   @default("Ibadan")
   status    String   @default("inactive")
+  activationDate DateTime @default(now())
+  lastActiveDate DateTime @default(now())
+  lastRuntime DateTime @default(now())
+  batteryPercentage Int @default(0)
   createdAt DateTime @default(now())
 }

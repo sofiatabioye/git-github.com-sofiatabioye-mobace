@@ -26,36 +26,6 @@ const dummyDevice = {
 export default function Breadcrumbs() {
   // Track which modals are open
   const [isDeviceModalOpen, setIsDeviceModalOpen] = useState(false);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-
-  // Step 1: Click "Remove device" inside the device modal
-  const handleRemoveClick = () => {
-    setIsDeviceModalOpen(false);
-    setIsConfirmModalOpen(true);
-  };
-
-  // Step 2a: Cancel removal in confirmation modal
-  const handleCancelRemoval = () => {
-    setIsConfirmModalOpen(false);
-    setIsDeviceModalOpen(true);
-  };
-
-  // Step 2b: Confirm removal
-  const handleConfirmRemoval = async (deviceId: string) => {
-    // TODO: call your API to remove the device
-    // e.g. await fetch(`/api/devices/${deviceId}`, { method: "DELETE" });
-    console.log(deviceId)
-    // Then show the success modal
-    setIsConfirmModalOpen(false);
-    setIsSuccessModalOpen(true);
-  };
-
-  // Step 3: Close success modal
-  const handleCloseSuccess = () => {
-    setIsSuccessModalOpen(false);
-    // e.g., refresh your device list or do other cleanup
-  };
 
   return (
     <header className="py-4 flex justify-between items-center">
@@ -76,23 +46,9 @@ export default function Breadcrumbs() {
       <DeviceModal
         isOpen={isDeviceModalOpen}
         onClose={() => setIsDeviceModalOpen(false)}
-        device={dummyDevice}
-        onRemoveClick={handleRemoveClick}
+        isNew={true}
       />
 
-      {/* Confirm Removal Modal (image 1) */}
-      <ConfirmRemovalModal
-        isOpen={isConfirmModalOpen}
-        onClose={handleCancelRemoval} // If user cancels, go back
-        onConfirm={() => handleConfirmRemoval(dummyDevice.id)}
-      />
-
-      {/* Removal Success Modal (image 2) */}
-      <RemovalSuccessModal
-        isOpen={isSuccessModalOpen}
-        deviceName={dummyDevice.name}
-        onClose={handleCloseSuccess}
-      />
     </header>
   );
 }
