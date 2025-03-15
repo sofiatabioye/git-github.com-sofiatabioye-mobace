@@ -31,7 +31,7 @@ export default function Layout({ children }: LayoutProps) {
         />
         </div>
         {/* Logo */}
-        <div className="absolute top-4 left-8 bg-[#252525] p-4 rounded-2xl  text-white text-xl font-bold">Mobace</div>
+        <div className="absolute top-4 left-8 bg-[#252525] p-4 rounded-2xl  text-white text-xl font-bold">RoboVolts</div>
         
           {children}
 

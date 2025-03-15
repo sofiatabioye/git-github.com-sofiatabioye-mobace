@@ -34,7 +34,7 @@ export default function DashboardSidebar() {
       >
         <div>
           <div className="text-lg font-bold mb-6 p-2 bg-[#333333] rounded-2xl text-white text-center">
-            Mobace
+            Robovolts
           </div>
           <DeviceDropdown />
           <nav className="space-y-4 mt-4 text-xs">

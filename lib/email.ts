@@ -8,7 +8,7 @@ export async function sendVerificationEmail(to: string, token: string) {
     await resend.emails.send({
       from: "no-reply@robovolts.com",
       to,
-      subject: "Verify Your Email - Mobace",
+      subject: "Verify Your Email - RoboVolts",
       html: `<p>Click <a href="${verificationLink}">here</a> to verify your email.</p>`,
     });
 }
