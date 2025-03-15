@@ -1,6 +1,5 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
 import {
   LogOut,
   LayoutDashboard,
@@ -15,8 +14,6 @@ import DeviceDropdown from "./DeviceDropdown";
 
 export default function DashboardSidebar() {
 
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
-  // const [loading, setLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname(); 
    const { data: session } = useSession();
@@ -33,9 +30,7 @@ export default function DashboardSidebar() {
   
   return (
     <aside
-        className={`w-64 bg-[#222222] border-r border-[#777777] p-6 flex flex-col justify-between transition-transform ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-64"
-        } md:translate-x-0`}
+        className={`w-64 bg-[#222222] border-r border-[#777777] p-6 flex flex-col justify-between transition-transform -translate-x-64 md:translate-x-0`}
       >
         <div>
           <div className="text-lg font-bold mb-6 p-2 bg-[#333333] rounded-2xl text-white text-center">
