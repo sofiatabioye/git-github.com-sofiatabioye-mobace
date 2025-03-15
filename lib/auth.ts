@@ -1,8 +1,7 @@
-import NextAuth, { User } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import db from "@/lib/db";
 import bcrypt from "bcryptjs";
-import { AdapterUser } from "next-auth/adapters";
 
 export const authOptions = {
   providers: [
@@ -55,7 +54,6 @@ export const authOptions = {
     async session({ session, token }: { session: any; token: any }) {
       // Add the name from token to the session object
       if (session.user) {
-        console.log(session, token)
         if (token.sub) {
           const dbUser = await db.user.findUnique({ where: { id: token.sub } });
           if (dbUser) {
