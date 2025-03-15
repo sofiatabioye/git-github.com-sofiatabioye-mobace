@@ -10,6 +10,7 @@ interface AuthProviderProps {
 
 export default async function AuthProvider({ children, requireAuth, redirectOnAuth }: AuthProviderProps) {
   const session = await getServerSession(authOptions);
+  console.log(session)
 
   if (requireAuth && !session) {
     redirect("/auth/login"); // Redirect if user is not logged in

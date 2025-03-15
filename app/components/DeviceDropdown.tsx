@@ -1,21 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react"; // or import from your icon library
-import { useDashboard } from "../dashboard/DashboardContext";
+import { Device, useDashboard } from "../dashboard/DashboardContext";
 
-interface Device {
-  id: string;
-  userId: string;
-  name: string;
-  location: string;
-  status: string;
-  createdAt?: string;
-}
 
 export default function DeviceDropdown({  }: { }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { devices, loading } = useDashboard();
-  const [selectedDevice, setSelectedDevice] = useState<Device| null>(null);
+  const { devices, selectedDevice, setSelectedDevice, loading } = useDashboard();
+  // const [selectedDevice, setSelectedDevice] = useState<Device| null>(null);
   
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
@@ -24,11 +16,15 @@ export default function DeviceDropdown({  }: { }) {
     setIsOpen(false);
   };
   useEffect(() => {
-    if(!loading){
-      setSelectedDevice(devices[0])
+    if(!loading && selectedDevice){
+      setSelectedDevice(selectedDevice || devices[0])
     }
-  }, [loading])
-
+  }, [loading, selectedDevice])
+  function formatDeviceId(id: string): string {
+    // Match every 1 to 4 characters and join with a dash
+    return id.match(/.{1,4}/g)?.join('-') || id;
+  }
+  
   return (
     <div className="relative">
       <div
@@ -38,7 +34,7 @@ export default function DeviceDropdown({  }: { }) {
         <span className="text-gray-400 text-xs block">Your device</span>
         <div className="flex items-center justify-between mt-1">
           <span className="text-xs font-semibold">
-            {selectedDevice ? selectedDevice.id : "Select a device"}
+            {selectedDevice ? formatDeviceId(selectedDevice.id) : "Select a device"}
           </span>
           {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
         </div>
@@ -51,7 +47,7 @@ export default function DeviceDropdown({  }: { }) {
               className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
               onClick={() => handleSelect(device)}
             >
-              {device.id}
+              {formatDeviceId(device.id)}
             </div>
           ))}
         </div>

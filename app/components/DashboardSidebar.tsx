@@ -10,7 +10,7 @@ import {
   MonitorSmartphone,
   User
 } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import DeviceDropdown from "./DeviceDropdown";
 
 export default function DashboardSidebar() {
@@ -19,6 +19,7 @@ export default function DashboardSidebar() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname(); 
+   const { data: session } = useSession();
 
   const handleLogout = async () => {
     setLoading(true);
@@ -94,9 +95,10 @@ export default function DashboardSidebar() {
         </div>
         <div className="space-y-2 text-xs">
           <div className="bg-[#292929] p-4 rounded-lg flex flex-col items-center text-center mt-6">
-            <User size={32} className="mb-2" />
-            <span className="font-bold">John Doe</span>
-            <span className="text-gray-400 text-sm">Admin</span>
+            
+            <User size={32}  className="mb-2" />
+            <span className="font-bold">{session?.user.name}</span>
+            {/* <span className="text-gray-400 text-sm">Admin</span> */}
             <button className="w-full bg-[#303030] text-white mt-3 py-2 rounded-lg font-bold text-sm">
               Manage profile
             </button>

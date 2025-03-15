@@ -1,4 +1,5 @@
 "use client";
+import { useSession } from "next-auth/react";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 export interface Device {
@@ -33,12 +34,13 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
+ const { data: session } = useSession();
 
   const fetchDevices = async () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/devices"); // Adjust this path if needed
+      const res = await fetch(`/api/devices/list?userId=${session?.user.id}`); // Adjust this path if needed
       const data = await res.json();
       if (res.ok) {
         setDevices(data.devices);

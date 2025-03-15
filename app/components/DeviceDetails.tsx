@@ -5,13 +5,15 @@ import { Device, useDashboard } from "../dashboard/DashboardContext";
 import DeviceModal from "./DeviceModal";
 import ConfirmRemovalModal from "./ConfirmRemovalModal";
 import RemovalSuccessModal from "./RemovalSuccessModal";
+import { useRouter } from "next/navigation";
 
 export default function DeviceDetails({device, index}: {device: Device, index: number}) {
     const [isDeviceModalOpen, setIsDeviceModalOpen] = useState(false);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [error, setError] = useState<String | null>(null);
-    const { deleteDevice } = useDashboard();
+    const { deleteDevice, setSelectedDevice } = useDashboard();
+    const router = useRouter();
 
      // Step 1: Click "Remove device" inside the device modal
     const handleRemoveClick = () => {
@@ -40,10 +42,15 @@ export default function DeviceDetails({device, index}: {device: Device, index: n
     // Step 3: Close success modal
     const handleCloseSuccess = () => {
         setIsSuccessModalOpen(false);
-        // e.g., refresh your device list or do other cleanup
     };
+
+    const handleClick = () => {
+        setSelectedDevice(device)
+        router.push("/dashboard")
+    }
     return (
          <div key={index} className="flex items-center rounded-2xl bg-[#222222]" >
+            {error && <p className="text-red-600 py-2 text-center">{error}</p>}
             {/* Device Image */}
             <div className="rounded-2xl p-4 pl-6" style={{ background: "linear-gradient(304.87deg, rgba(34, 34, 34, 0.08) -1.17%, rgba(34, 34, 34, 0.1) 38.73%, rgba(121, 121, 121, 0.2) 54.24%, #CACACA 98.82%)" }}>
             <Image src="/device.png" alt="device" height={120} width={120} />
@@ -72,7 +79,7 @@ export default function DeviceDetails({device, index}: {device: Device, index: n
             </span>
             
             {/* View Details Button */}
-            <button className="ml-4 bg-[#393939] px-4 py-2 rounded-xl text-white font-bold text-xs">
+            <button className="ml-4 bg-[#393939] px-4 py-2 rounded-xl text-white font-bold text-xs" onClick={handleClick}>
                 View full details
             </button>
             </div>

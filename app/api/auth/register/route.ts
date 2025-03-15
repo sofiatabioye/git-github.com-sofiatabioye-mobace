@@ -10,8 +10,8 @@ const generateVerificationCode = () => {
 
 export async function POST(req: Request) {
   try {
-    const { email, password } = await req.json();
-
+    const { email, password, firstName, lastName } = await req.json();
+    console.log(firstName, lastName)
     // Check if user already exists
     const existingUser = await db.user.findUnique({ where: { email } });
     if (existingUser) {
@@ -23,16 +23,18 @@ export async function POST(req: Request) {
 
     // Generate 6-digit verification code
     const emailVerificationCode = generateVerificationCode();
-
+    const data = {
+      email,
+      password: hashedPassword,
+      emailVerificationToken: emailVerificationCode,
+      emailVerified: null,
+      firstname: firstName,
+      lastname: lastName,
+      nin: ''
+    }
+    console.log(data)
     // Save user to database with verification code
-    await db.user.create({
-      data: {
-        email,
-        password: hashedPassword,
-        emailVerificationToken: emailVerificationCode, // Store numeric code
-        emailVerified: null,
-      },
-    });
+    await db.user.create({data});
 
     // Send verification email with numeric code
     await sendVerificationEmail(email, emailVerificationCode);

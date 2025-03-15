@@ -3,7 +3,7 @@ import db from "@/app/lib/db";
 
 export async function POST(req: Request) {
   try {
-    const { userId, name, location, status, id } = await req.json();
+    const { userId, name, location, status, batteryPercentage, id } = await req.json();
 
     // Validate required parameters
     if (!userId || !name || !location) {
@@ -21,6 +21,7 @@ export async function POST(req: Request) {
         name,
         location,
         status: status || "inactive",
+        batteryPercentage: batteryPercentage ?? 0
       },
     });
 

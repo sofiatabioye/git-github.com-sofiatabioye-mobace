@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import DeviceModal from "./DeviceModal";
-import ConfirmRemovalModal from "./ConfirmRemovalModal";
-import RemovalSuccessModal from "./RemovalSuccessModal";
 import { Plus } from "lucide-react";
 
 // Dummy device data

@@ -1,7 +1,8 @@
-import NextAuth from "next-auth";
+import NextAuth, { User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import db from "@/lib/db";
 import bcrypt from "bcryptjs";
+import { AdapterUser } from "next-auth/adapters";
 
 export const authOptions = {
   providers: [
@@ -29,8 +30,13 @@ export const authOptions = {
         if (!isValidPassword) {
           throw new Error("Invalid password");
         }
+        console.log(user)
 
-        return { id: user.id, email: user.email };
+        return {
+          id: user.id,
+          email: user.email,
+          name: `${user.firstname} ${user.lastname}`,
+        };
       },
     }),
   ],
@@ -38,6 +44,29 @@ export const authOptions = {
     signIn: "/auth/login",
   },
   session: { strategy: "jwt" as const },
+  callbacks: {
+    async jwt({ token, user }: { token: any; user?: any }) {
+      if (user) {
+        token.name = user.name;
+        console.log("JWT callback - new token:", token);
+      }
+      return token;
+    },
+    async session({ session, token }: { session: any; token: any }) {
+      // Add the name from token to the session object
+      if (session.user) {
+        console.log(session, token)
+        if (token.sub) {
+          const dbUser = await db.user.findUnique({ where: { id: token.sub } });
+          if (dbUser) {
+            session.user.name = `${dbUser.firstname} ${dbUser.lastname}`;
+          }
+        }
+        session.user.name = token.name as string;
+      }
+      return session;
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET,
 };
 

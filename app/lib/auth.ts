@@ -3,6 +3,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import db from "./db";
 import { cookies } from "next/headers"; // ✅ Get cookies manually
+import { AdapterUser } from "next-auth/adapters";
+import { User } from "@prisma/client";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -20,7 +22,7 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Missing email or password");
         }
 
-        const user = await db.user.findUnique({ where: { email: credentials.email } });
+        const user = await db.user.findUnique({ where: { email: credentials.email } }) as AdapterUser;
 
         if (!user) {
           throw new Error("Incorrect email and/or password");
@@ -31,6 +33,16 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async jwt({ token, user }) {
+      // When signing in, attach the user id if available.
+      if (user && "id" in user) {
+        token.sub = user.id;
+        if ("firstname" in user && "lastname" in user) {
+          token.name = `${user.firstname} ${user.lastname}`;
+        }
+      }
+      return token;
+    },
     async session({ session, token }: {session: any, token: any}) {
       session.user.id = token.sub; // Attach user ID to session
       return session;

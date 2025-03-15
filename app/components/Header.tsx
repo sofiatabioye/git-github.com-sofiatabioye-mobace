@@ -5,9 +5,11 @@ import {
   ChevronLeft,
   ChevronRight
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export default function DashboardHeader() {
   const router = useRouter();
+  const { data: session } = useSession();
   return (
     <header className="bg-[#222222] px-4 py-4 flex justify-between items-center">
     <div className="flex items-center gap-3">
@@ -26,7 +28,7 @@ export default function DashboardHeader() {
     </button>
 
     {/* Welcome Message */}
-    <h1 className="text-xl font-bold text-white">Hello, John</h1>
+    <h1 className="text-xl font-bold text-white">Hello, {session?.user.name.split(' ')[0]}</h1>
     </div>
     <div className="relative w-72 hidden md:block">
       <input

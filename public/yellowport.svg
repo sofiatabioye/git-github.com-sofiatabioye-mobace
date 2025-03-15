@@ -1,0 +1,19 @@
+<svg width="48" height="67" viewBox="0 0 48 67" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_434_1188)">
+<path d="M48 7.6V66.4H17.2L0 55.6V0H30L48 7.6Z" fill="#FFDB43" fill-opacity="0.1"/>
+<path d="M17.2 7.6H48M17.2 7.6V66.4M17.2 7.6L0 0M48 7.6V66.4H17.2M48 7.6L30 0H0M17.2 66.4L0 55.6M17.2 55.6H0M0 55.6V0" stroke="#DFB400" stroke-width="0.8"/>
+<rect x="28" y="41.6" width="11.2" height="11.2" rx="5.6" fill="#FFDB43" fill-opacity="0.1"/>
+<rect x="32.7998" y="44" width="1.6" height="3.2" rx="0.8" fill="#DFB400"/>
+<rect x="29.6001" y="50.4" width="1.6" height="3.2" rx="0.8" transform="rotate(-90 29.6001 50.4)" fill="#DFB400"/>
+<rect x="34.3999" y="50.4" width="1.6" height="3.2" rx="0.8" transform="rotate(-90 34.3999 50.4)" fill="#DFB400"/>
+<rect x="28" y="20.8" width="11.2" height="11.2" rx="5.6" fill="#FFDB43" fill-opacity="0.1"/>
+<rect x="32.7998" y="23.2" width="1.6" height="3.2" rx="0.8" fill="#DFB400"/>
+<rect x="29.6001" y="29.6" width="1.6" height="3.2" rx="0.8" transform="rotate(-90 29.6001 29.6)" fill="#DFB400"/>
+<rect x="34.3999" y="29.6" width="1.6" height="3.2" rx="0.8" transform="rotate(-90 34.3999 29.6)" fill="#DFB400"/>
+</g>
+<defs>
+<clipPath id="clip0_434_1188">
+<rect width="48" height="66.4" fill="white"/>
+</clipPath>
+</defs>
+</svg>

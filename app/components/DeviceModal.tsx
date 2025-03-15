@@ -11,8 +11,6 @@ import { useSession } from "next-auth/react";
 interface DeviceModalProps {
   isOpen: boolean;
   onClose: () => void;
-  // For edit mode, pass an existing device.
-  // For add mode, this prop can be omitted.
   device?: Device;
   // Only used in edit mode.
   onRemoveClick?: () => void;
@@ -68,16 +66,22 @@ export default function DeviceModal({
     setEditedDevice({ ...editedDevice, [e.target.name]: e.target.value });
   };
 
+  const generateRandomBatteryPercentage = () => {
+    const min = 70;
+    const max = 98;
+    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    return randomNumber
+  }
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!session?.user?.id) return; 
     try {
       if (isNew) {
-        // Create a new device using the POST endpoint.
-        const response = await createDevice({...editedDevice, userId: session.user.id});
+        const response = await createDevice({...editedDevice, userId: session.user.id, batteryPercentage: generateRandomBatteryPercentage(), status: 'active'});
         setMessage(response.message || "Device created successfully!");
+        setEditedDevice(initialDevice)
       } else {
-        // Edit an existing device.
         await editDevice(editedDevice);
         setMessage("Device updated successfully!");
       }
@@ -289,7 +293,7 @@ export default function DeviceModal({
               )}
 
               {/* Action Buttons */}
-              {isNew || isEditing && <div className="flex w-full items-center mt-6">
+              {(isNew || isEditing) && <div className="flex w-full items-center mt-6">
                 <button
                   onClick={handleSave}
                   className="bg-green-500 text-black w-full flex justify-center items-center font-bold py-2 px-4 rounded-lg"

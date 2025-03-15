@@ -49,7 +49,7 @@ export function RegisterProvider({ children }: { children: ReactNode }) {
       if (!res.ok) {
         throw new Error(data.message || "Registration failed");
       }
-  
+
       return { success: true, message: "Registration successful! Check your email." };
     } catch (error: unknown) {
       console.error("Registration error:", error);
@@ -87,17 +87,22 @@ export function RegisterProvider({ children }: { children: ReactNode }) {
       return { success: false, message: error instanceof Error ? error.message : "An unknown error occurred." };
     }
   };
+  const generateRandomBatteryPercentage = () => {
+    const min = 70;
+    const max = 98;
+    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    return randomNumber
+  }
 
   const registerDevice = async (deviceId: string) => {
     try {
-      const res = await fetch("/api/devices/register", {
+      const res = await fetch("/api/devices/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: userData.userId, deviceId }),
+        body: JSON.stringify({ userId: userData.userId, id: deviceId, name: `${userData?.firstName}'s First Device`, location: 'Ibadan', batteryPercentage: generateRandomBatteryPercentage(), status: 'active'}),
       });
 
       const data = await res.json();
-      console.log(data)
       if (!res.ok) throw new Error(data.message || "Device registration failed");
 
       updateUserData({ deviceId }); // Store device ID in context

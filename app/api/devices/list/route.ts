@@ -3,13 +3,22 @@ import db from "@/app/lib/db";
 
 export async function GET(req: Request) {
   try {
+    // Using req.nextUrl is recommended in Next.js App Router
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("userId");
+    
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "User ID is required" },
+        { status: 400 }
+      );
+    }
 
-    // If a userId is provided, filter devices by user; otherwise, list all devices.
-    const devices = userId
-      ? await db.device.findMany({ where: { userId } })
-      : await db.device.findMany();
+    // Return only devices that belong to the specified user
+    const devices = await db.device.findMany({
+      where: { userId },
+    });
+    console.log(devices);
 
     return NextResponse.json({ success: true, devices });
   } catch (error) {
@@ -19,3 +28,4 @@ export async function GET(req: Request) {
     );
   }
 }
+
