@@ -16,24 +16,21 @@ import DeviceDropdown from "./DeviceDropdown";
 export default function DashboardSidebar() {
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname(); 
    const { data: session } = useSession();
 
   const handleLogout = async () => {
-    setLoading(true);
     try {
       await signOut({ redirect: false }); // Ensure logout happens without auto-redirect
       router.push("/auth/login"); // Redirect user to login page
     } catch (error) {
       console.error("Logout failed:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
-    
+  
   return (
     <aside
         className={`w-64 bg-[#222222] border-r border-[#777777] p-6 flex flex-col justify-between transition-transform ${

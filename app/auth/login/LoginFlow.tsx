@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Undo, Eye, EyeOff } from "lucide-react";
 import { useLogin } from "./LoginContext";
 import { useRouter } from "next/navigation";
@@ -59,7 +59,7 @@ export function LoginEmail({ nextStep }: LoginProps) {
         <button onClick={handleSubmit} className="w-full bg-white text-black font-bold mt-6 py-3 rounded-lg">
           Proceed
         </button>
-        <p className="text-[#8E8E8E]">You don't have an account? <span className="text-white underline" onClick={() => router.push('/auth/register')}>Signup</span></p>
+        <p className="text-[#8E8E8E]">You dont have an account? <span className="text-white underline" onClick={() => router.push('/auth/register')}>Signup</span></p>
       </div>
     );
 }

@@ -1,4 +1,3 @@
-import { BatteryFull } from "lucide-react"; // Battery icon
 import Image
  from "next/image";
 export default function BatteryDissipation({batteryPercentage, batteryUsageTimeRemaining}: {batteryPercentage: number, batteryUsageTimeRemaining: string}) {

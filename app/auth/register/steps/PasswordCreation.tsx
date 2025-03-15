@@ -54,8 +54,8 @@ export default function PasswordCreation({ nextStep, title }: PasswordCreationPr
             }
 
             nextStep();
-        } catch (err: any) {
-            setError(err.message || "An unexpected error occurred.");
+        } catch (err: unknown) {
+            setError((err as any)?.message || "An unexpected error occurred.");
         } finally {
             setLoading(false);
         }

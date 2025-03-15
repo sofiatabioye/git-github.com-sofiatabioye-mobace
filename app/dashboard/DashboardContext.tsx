@@ -23,8 +23,8 @@ interface DashboardContextValue {
   selectedDevice: Device | null;
   setSelectedDevice: (device: Device) => void;
   editDevice: (updatedDevice: Device) => Promise<{message: string, success?: boolean, device?: Device}>;
-  deleteDevice: (deviceId: string) => Promise<{message?: string} | void>;
-  createDevice: (newDevice: Partial<Device>) => Promise<{message?: string}>;
+  deleteDevice: (deviceId: string) => Promise<{message?: string}>;
+  createDevice: (newDevice: Partial<Device>) => Promise<{message?: string, success?: boolean | undefined; device?: Device | undefined}>;
 }
 
 const DashboardContext = createContext<DashboardContextValue | undefined>(undefined);
@@ -89,6 +89,7 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
       if (selectedDevice && selectedDevice.id === updatedDevice.id) {
         setSelectedDevice(data.device);
       }
+      return data
     } catch (err: any) {
       const errMessage = err.message || "An error occurred while updating device";
       setError(errMessage);

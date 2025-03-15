@@ -12,7 +12,6 @@ import { useDashboard } from "./DashboardContext";
 
 export default  function Dashboard() {
    
-  const { selectedDevice } = useDashboard();
   // const portsData = [
   //   { id: 1, status: "active", color: "green-400", imagesrc: "/greenport.svg" },
   //   { id: 2, status: "inactive", color: "gray-500", imagesrc: "/greyport.svg",}, 
@@ -91,7 +90,7 @@ export default  function Dashboard() {
       <Breadcrumbs />
 
       {/* Dashboard Widgets */}
-      <InfoWidgets location={selectedDevice?.location|| ''} sun={weather.sun} rain={weather.rain} wind={weather.wind} />
+      <InfoWidgets sun={weather.sun} rain={weather.rain} wind={weather.wind} />
      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <ConnectedPorts  portsData={portsData}/>

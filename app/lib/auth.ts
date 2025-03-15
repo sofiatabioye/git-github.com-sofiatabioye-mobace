@@ -2,9 +2,7 @@ import { NextAuthOptions, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import db from "./db";
-import { cookies } from "next/headers"; // ✅ Get cookies manually
 import { AdapterUser } from "next-auth/adapters";
-import { User } from "@prisma/client";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),

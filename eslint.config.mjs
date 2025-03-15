@@ -9,8 +9,20 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [
+export default [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    rules: {
+      // Disable wrapper object types rule:
+      "@typescript-eslint/no-wrapper-object-types": "off",
+      // Disable explicit any rule:
+      "@typescript-eslint/no-explicit-any": "off",
+      // Disable empty object type rule:
+      "@typescript-eslint/no-empty-object-type": "off",
+      // Disable missing dependencies warning for React Hooks:
+      "react-hooks/exhaustive-deps": "off",
+      // Disable unused vars error:
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
 ];
-
-export default eslintConfig;

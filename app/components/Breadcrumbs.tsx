@@ -4,22 +4,6 @@ import { useState } from "react";
 import DeviceModal from "./DeviceModal";
 import { Plus } from "lucide-react";
 
-// Dummy device data
-const dummyDevice = {
-  id: "1",
-  name: "Device name",
-  deviceId: "1230 - 2382 - 1211 - 9912",
-  activationDate: "11/12/2025",
-  lastActiveDate: "11/12/2025",
-  lastRuntime: "15h 32m 23s",
-  location: "Lagos, Nigeria",
-  status: "Active",
-  battery: "89",
-  admins: [
-    { name: "Sofiat Abioye", avatar: "/avatar1.png" },
-    { name: "Abdul Quayyum", avatar: "/avatar2.png" },
-  ],
-};
 
 export default function Breadcrumbs() {
   // Track which modals are open
