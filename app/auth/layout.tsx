@@ -11,7 +11,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
 
   return (
-    <AuthProvider requireAuth>
+    <AuthProvider>
       <div className="relative w-full h-screen flex items-center justify-center bg-[#292929] text-white overflow-hidden">
         {/* Background Images */}
         <div className="absolute top-0 left-0 w-full h-1/2">
