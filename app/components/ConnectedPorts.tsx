@@ -18,11 +18,12 @@ import Image from "next/image";
 
 
 export default function ConnectedPorts({portsData}: {portsData: { id: number, status: string, color: string, imagesrc: string}[]}) {
+  const activePorts = portsData?.filter((item) => item.status !== 'inactive').length;
   return (
     <div className="bg-white text-black p-6 rounded-lg w-full">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-md text-[#333333] font-bold">Connected Port(s)</h3>
-        <p className="text-sm font-bold text-[#8E8E8E]">6/8</p>
+        <p className="text-sm font-bold text-[#8E8E8E]">{activePorts}/8</p>
       </div>
       <hr className="bg-gray" />
       <div className="flex justify-between gap-4">
