@@ -11,7 +11,7 @@ interface IdentityVerificationProps {
 }
 
 export default function IdentityVerification2({ nextStep, title }: IdentityVerificationProps) {
-  const { updateUserData } = useRegister();
+  const { updateUserData, saveNin } = useRegister();
   const [nin, setNin] = useState("");
   const [error, setError] = useState("");
 
@@ -30,15 +30,16 @@ export default function IdentityVerification2({ nextStep, title }: IdentityVerif
     setError(""); // Clear error when typing
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const cleanNin = nin.replace(/\s/g, ""); // Remove spaces for validation
 
     if (cleanNin.length !== 11) {
       setError("NIN must be exactly 11 digits.");
       return;
     }
-
+  
     updateUserData({ nin: cleanNin }); // Store NIN in RegisterContext
+    await saveNin(cleanNin); // Save NIN to local storage
     nextStep(); // Move to next step
   };
 

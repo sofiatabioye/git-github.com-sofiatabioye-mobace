@@ -9,6 +9,7 @@ interface UserData {
   password: string;
   deviceId: string;
   nin: string;
+  registrationProgress: 'started' | 'email-verified' | 'nin-saved' | 'device-registered';
 }
 
 interface RegisterContextProps {
@@ -17,6 +18,7 @@ interface RegisterContextProps {
   submitRegistration: () => Promise<{ success: boolean; message?: string }>;
   verifyEmailCode: (code: string) => Promise<{ success: boolean; message?: string }>;
   registerDevice: (deviceId: string) => Promise<{ success: boolean; message?: string }>;
+  saveNin: (nin: string) => Promise<{ success: boolean; message?: string }>;
 }
 
 const RegisterContext = createContext<RegisterContextProps | undefined>(undefined);
@@ -29,7 +31,8 @@ export function RegisterProvider({ children }: { children: ReactNode }) {
     password: '',
     deviceId: '',
     userId: '',
-    nin: ''
+    nin: '',
+    registrationProgress: 'started'
   });
 
   const updateUserData = (data: Partial<UserData>) => {
@@ -72,18 +75,37 @@ export function RegisterProvider({ children }: { children: ReactNode }) {
       const data = await res.json();
   
       if (!res.ok) throw new Error(data.message || "Invalid verification code");
+      
       updateUserData({ userId: data.userId });
-      const loginRes = await signIn("credentials", {
-        redirect: false, // Prevent automatic redirection
-        email: userData.email,
-        password: userData.password, // Using stored password from context
+      await fetch("/api/auth/update-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          userId: data.userId,
+          registrationProgress: "email-verified" 
+        }),
       });
-      if (loginRes?.error) {
-        throw new Error("Failed to log in automatically. Please log in manually.");
-      }
+
       return { success: true, message: "Email verified successfully!" };
     } catch (error: unknown) {
       console.error("Email verification error:", error);
+      return { success: false, message: error instanceof Error ? error.message : "An unknown error occurred." };
+    }
+  };
+
+  const saveNin = async (nin: string) => {
+    try {
+      const res =  await fetch("/api/auth/update-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: userData.userId, nin: nin, registrationProgress: "nin-saved" }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "NIN saving failed");
+      updateUserData({ nin });
+      return { success: true, message: "NIN saved successfully!" };
+    } catch (error: unknown) {
+      console.error("NIN saving error:", error);
       return { success: false, message: error instanceof Error ? error.message : "An unknown error occurred." };
     }
   };
@@ -106,15 +128,24 @@ export function RegisterProvider({ children }: { children: ReactNode }) {
       if (!res.ok) throw new Error(data.message || "Device registration failed");
 
       updateUserData({ deviceId }); // Store device ID in context
+      await fetch("/api/auth/update-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          userId: userData.userId,
+          registrationProgress: "device-registered"
+        }),
+      });
       return { success: true, message: "Device registered successfully!" };
     } catch (error: unknown) {
       console.error("Device registration error:", error);
       return { success: false, message: error instanceof Error ? error.message : "An unknown error occurred." };
     }
   };
+
   
   return (
-    <RegisterContext.Provider value={{ userData, updateUserData, submitRegistration, verifyEmailCode, registerDevice }}>
+    <RegisterContext.Provider value={{ userData, updateUserData, submitRegistration, verifyEmailCode, registerDevice, saveNin }}>
       {children}
     </RegisterContext.Provider>
   );

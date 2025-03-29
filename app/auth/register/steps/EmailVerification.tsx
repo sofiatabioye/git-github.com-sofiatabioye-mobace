@@ -52,7 +52,6 @@ export default function EmailVerification({ nextStep, title }: EmailVerification
     setError("");
 
     const res = await verifyEmailCode(enteredCode);
-    console.log(res)
     if (!res.success) {
       setError(res.message || "Invalid verification code.");
       setLoading(false);
